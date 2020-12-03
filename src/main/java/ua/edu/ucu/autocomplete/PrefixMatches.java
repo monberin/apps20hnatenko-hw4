@@ -1,5 +1,6 @@
 package ua.edu.ucu.autocomplete;
 
+import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
 
 /**
@@ -13,7 +14,11 @@ public class PrefixMatches {
 
 
     public PrefixMatches(Trie trie) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.trie = trie;
+    }
+
+    public PrefixMatches() {
+        this.trie = new RWayTrie();
     }
 
 

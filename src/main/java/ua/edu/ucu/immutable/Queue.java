@@ -1,6 +1,8 @@
 package ua.edu.ucu.immutable;
 
-public class Queue {
+import java.util.Iterator;
+
+public class Queue implements Iterable<String> {
     private ImmutableLinkedList lst = new ImmutableLinkedList();
     public Queue(){
     }
@@ -22,6 +24,11 @@ public class Queue {
     } //- Removes and returns the object at the beginning of the ua.edu.ucu.immutable.Queue.
     public void enqueue(Object e){
         this.lst = this.lst.addLast(e);
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return null;
     }
     //- Adds an object to the end of the ua.edu.ucu.immutable.Queue.
 }

@@ -54,7 +54,7 @@ public class RWayTrie implements Trie {
     }
 
     // page 738
-    private void collect(Node x, String pre,Queue q){
+    private void collect(Node x, String pre, Queue q){
         if (x == null) return;
         if (x.val != null) {
             q.enqueue(pre);
@@ -91,17 +91,22 @@ public class RWayTrie implements Trie {
         return false;
     }
 
-    // Ітератор по всім словам (обхід дерева в ширину)
-    @Override
-    public Iterable<String> words() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     // Ітератор по всім словам, які починаються з pref
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Queue queue = new Queue();
+        Node node = get(root,s,0);
+        this.collect(node,s,queue);
+
+        return queue;
     }
+
+    // Ітератор по всім словам (обхід дерева в ширину)
+    @Override
+    public Iterable<String> words() {
+        return wordsWithPrefix("");
+    }
+
 
     // Кількість слів в Trie
     @Override

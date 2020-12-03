@@ -36,7 +36,7 @@ public class Queue implements Iterable<String> {
 
             @Override
             public String next() {
-                if (lst.isEmpty()){
+                if (lst.isEmpty()) {
                     throw new NoSuchElementException();
                 }
                 return (String) dequeue();

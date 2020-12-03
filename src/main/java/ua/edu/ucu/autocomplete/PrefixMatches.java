@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class PrefixMatches {
 
-    public static int MIN_LENGTH = 3;
+    static final int MIN_LENGTH = 3;
     private Trie trie;
 
 
@@ -33,7 +33,7 @@ public class PrefixMatches {
     // (слова відокремлюються пробілами).
     // До словника мають додаватися лише слова довші за 2 символи.
     public int load(String... strings) {
-        for(String string: strings) {
+        for (String string: strings) {
             String[] words = string.split("\\s");
             for (String word: words) {
                 if (word.length() >= MIN_LENGTH) {
@@ -75,7 +75,8 @@ public class PrefixMatches {
     // - при k=4 повертається 'abc', 'abcd', 'abce', 'abcde', 'abcdef'
     public Iterable<String> wordsWithPrefix(String pref, int k) {
         if (pref.length() < 2) {
-            throw new IllegalArgumentException("Prefix should be longer than 1");
+            throw new IllegalArgumentException("Prefix should be" +
+                    " longer than 1");
         }
         int len = MIN_LENGTH;
         ArrayList<String> wordsWithPrefix = new ArrayList<>();
@@ -84,8 +85,8 @@ public class PrefixMatches {
             len = pref.length();
         }
         Iterable<String> words = trie.wordsWithPrefix(pref);
-        for(String word: words) {
-            if (word.length() < len + k){
+        for (String word: words) {
+            if (word.length() < len + k) {
                 wordsWithPrefix.add(word);
             }
         }

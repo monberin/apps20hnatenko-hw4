@@ -6,7 +6,6 @@ public class Queue implements Iterable<String> {
     private ImmutableLinkedList lst = new ImmutableLinkedList();
     public Queue(){
     }
-
     public Object peek() {
         if (this.lst.isEmpty()) {
             return null;
@@ -28,7 +27,20 @@ public class Queue implements Iterable<String> {
 
     @Override
     public Iterator<String> iterator() {
-        return null;
+        return new Iterator<String>() {
+            @Override
+            public boolean hasNext() {
+                return !lst.isEmpty();
+            }
+
+            @Override
+            public String next() {
+                if (lst.isEmpty()){
+                    throw new IndexOutOfBoundsException();
+                }
+                return (String) dequeue();
+            }
+        };
     }
     //- Adds an object to the end of the ua.edu.ucu.immutable.Queue.
 }

@@ -5,6 +5,8 @@ public class RWayTrie implements Trie {
     private static final int R = 256;
     private Node root = new Node();
     private int size = 0;
+    private static final int SHIFT = 97;
+
     // radix
     // root of trie
     //page 737
@@ -19,7 +21,7 @@ public class RWayTrie implements Trie {
         if (x == null) return null;
         if (d == key.length()) return x;
         char c = key.charAt(d); // Use dth key char to identify subtrie.
-        return get(x.next[c], key, d+1);
+        return get(x.next[c - SHIFT], key, d+1);
     }
 
     private Node put(Node x, String key, Object val, int d)
@@ -27,7 +29,7 @@ public class RWayTrie implements Trie {
         if (x == null) x = new Node();
         if (d == key.length()) { x.val = val; return x; }
         char c = key.charAt(d); // Use dth key char to identify subtrie.
-        x.next[c] = put(x.next[c], key, val, d+1);
+        x.next[c - SHIFT] = put(x.next[c - SHIFT], key, val, d+1);
         return x;
     }
 
@@ -40,13 +42,13 @@ public class RWayTrie implements Trie {
             x.val = null;
         } else {
             char c = key.charAt(d);
-            x.next[c] = delete(x.next[c], key, d + 1);
+            x.next[c - SHIFT] = delete(x.next[c- SHIFT], key, d + 1);
         }
         if (x.val != null) {
             return x;
         }
-        for (char c = 0; c < R; c++) {
-            if (x.next[c] != null) {
+        for (char c = SHIFT; c < SHIFT + R; c++) {
+            if (x.next[c - SHIFT] != null) {
                 return x;
             }
         }
@@ -59,8 +61,8 @@ public class RWayTrie implements Trie {
         if (x.val != null) {
             q.enqueue(pre);
         }
-        for (char c = 0; c < R; c++){
-            collect(x.next[c], pre + c, q);
+        for (char c = SHIFT; c < SHIFT + R; c++){
+            collect(x.next[c - SHIFT], pre + c, q);
         }
     }
 

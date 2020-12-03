@@ -1,6 +1,7 @@
 package ua.edu.ucu.immutable;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Queue implements Iterable<String> {
     private ImmutableLinkedList lst = new ImmutableLinkedList();
@@ -36,7 +37,7 @@ public class Queue implements Iterable<String> {
             @Override
             public String next() {
                 if (lst.isEmpty()){
-                    throw new IndexOutOfBoundsException();
+                    throw new NoSuchElementException();
                 }
                 return (String) dequeue();
             }

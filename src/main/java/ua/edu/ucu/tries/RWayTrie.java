@@ -3,9 +3,9 @@ import ua.edu.ucu.immutable.Queue;
 
 public class RWayTrie implements Trie {
     private static final int R = 256;
+    private static final int SHIFT = 97;
     private Node root = new Node();
     private int size = 0;
-    private static final int SHIFT = 97;
 
     // radix
     // root of trie
@@ -16,18 +16,26 @@ public class RWayTrie implements Trie {
         private Node[] next = new Node[R];
     }
 
-    private Node get(Node x, String key, int d)
-    { // Return node associated with key in the subtrie rooted at x.
-        if (x == null) return null;
-        if (d == key.length()) return x;
+    private Node get(Node x, String key, int d) { // Return node associated with key in the subtrie rooted at x.
+        if (x == null) {
+            return null;
+        }
+        if (d == key.length()) {
+            return x;
+        }
         char c = key.charAt(d); // Use dth key char to identify subtrie.
         return get(x.next[c - SHIFT], key, d+1);
     }
 
     private Node put(Node x, String key, Object val, int d)
     { // Change value associated with key if in subtrie rooted at x.
-        if (x == null) x = new Node();
-        if (d == key.length()) { x.val = val; return x; }
+        if (x == null) {
+            x = new Node();
+        }
+        if (d == key.length()) {
+            x.val = val;
+            return x;
+        }
         char c = key.charAt(d); // Use dth key char to identify subtrie.
         x.next[c - SHIFT] = put(x.next[c - SHIFT], key, val, d+1);
         return x;
@@ -56,12 +64,12 @@ public class RWayTrie implements Trie {
     }
 
     // page 738
-    private void collect(Node x, String pre, Queue q){
+    private void collect(Node x, String pre, Queue q) {
         if (x == null) return;
         if (x.val != null) {
             q.enqueue(pre);
         }
-        for (char c = SHIFT; c < SHIFT + R; c++){
+        for (char c = SHIFT; c < SHIFT + R; c++) {
             collect(x.next[c - SHIFT], pre + c, q);
         }
     }
@@ -72,13 +80,13 @@ public class RWayTrie implements Trie {
     @Override
     public void add(Tuple t) {
         root = put(root, t.term, t.weight, 0);
-        size+=1;
+        size += 1;
     }
 
     // Чи є слово в Trie
     @Override
     public boolean contains(String word) {
-        Node finalNode = get(root,word,0);
+        Node finalNode = get(root, word,0);
         return finalNode != null && finalNode.val != null;
     }
 
@@ -97,8 +105,8 @@ public class RWayTrie implements Trie {
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
         Queue queue = new Queue();
-        Node node = get(root,s,0);
-        this.collect(node,s,queue);
+        Node node = get(root, s,0);
+        this.collect(node, s, queue);
 
         return queue;
     }
